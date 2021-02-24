@@ -10,7 +10,7 @@ export default function Header() {
         <NavbarToggle aria-controls="navbar-nav" />
         <Navbar.Collapse id="navbar-nav">
           <Nav className="ml-auto">
-            <Nav.Link href="/home">Home</Nav.Link>
+            <Nav.Link href="/home">Dashboard</Nav.Link>
             <Nav.Link href="/tickets">Tickets</Nav.Link>
             <Nav.Link href="/">Logout</Nav.Link>
           </Nav>

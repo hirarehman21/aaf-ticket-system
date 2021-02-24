@@ -8,6 +8,11 @@ footer {
   color: white;
 }
 
+.breadcrumb {
+  background-color: white !important;
+  /* list-style: none; */
+}
+
 
 
 

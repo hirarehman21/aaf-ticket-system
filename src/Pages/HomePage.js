@@ -5,7 +5,7 @@ import Header from '../Components/Header';
 function HomePage({children}) {
     return (
       <div>
-        <Header />
+        <header className="mb-2"><Header /></header>       
                 
         <main>{children}</main>         
             

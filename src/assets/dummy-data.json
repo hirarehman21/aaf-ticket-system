@@ -1,0 +1,51 @@
+[
+    {
+      "id": 1,
+      "complaint": "Lorem Ipsum",
+      "status": "Opened",
+      "openedAt": "2021-05-12"
+    },
+    {
+      "id": 2,
+      "complaint": "Lorem Ipsum",
+      "status": "Solved",
+      "openedAt": "2021-05-12"
+    },
+    {
+      "id": 3,
+      "complaint": "Lorem Ipsum",
+      "status": "Opened",
+      "openedAt": "2021-05-12"
+    },
+    {
+      "id": 4,
+      "complaint": "Lorem Ipsum",
+      "status": "Closed",
+      "openedAt": "2021-05-12"
+    },
+    {
+      "id": 5,
+      "complaint": "Lorem Ipsum",
+      "status": "Cancelled",
+      "openedAt": "2021-05-12"
+    },
+     {
+       "id": 6,
+       "complaint": "Lorem Ipsum",
+       "status": "Cancelled",
+       "openedAt": "2021-05-12"
+     },
+      {
+        "id": 7,
+        "complaint": "Lorem Ipsum",
+        "status": "Cancelled",
+        "openedAt": "2021-05-12"
+      },
+       {
+         "id": 8,
+         "complaint": "Lorem Ipsum",
+         "status": "Cancelled",
+         "openedAt": "2021-05-12"
+       }
+
+]

@@ -3,6 +3,7 @@ import { Container, Row, Col, Button } from "react-bootstrap";
 import TicketTable from "../Components/TicketTable";
 import tickets from "../assets/dummy-data.json";
 import BreadCrumb from "../Components/BreadCrumb";
+import { Link } from "react-router-dom";
 
 export default function Dashboard() {
   return (
@@ -14,7 +15,7 @@ export default function Dashboard() {
       </Row>
       <Row>
         <Col className="d-flex justify-content-end mt-4">
-          <Button className="mr-2">Open New Ticket</Button>
+          <Link to="/newTicket"><Button className="mr-2">Open New Ticket</Button></Link>
         </Col>
       </Row>
       <Row>

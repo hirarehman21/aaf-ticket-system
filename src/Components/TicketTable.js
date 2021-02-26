@@ -1,5 +1,6 @@
 import React from 'react';
-import { Table} from 'react-bootstrap';
+import { Table } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 
 function TicketTable({tickets}) {
     return (
@@ -13,19 +14,22 @@ function TicketTable({tickets}) {
           </tr>
         </thead>
         <tbody>
-          {tickets.length ?
+          {tickets.length ? (
             tickets.map((row) => (
-              <tr key={row.id}>
-                <td>{row.id}</td>
-                <td>{row.complaint}</td>
+              <tr key={row.id}>                
+                <td>{row.id}</td>                
+                <td><Link to={`/ticket/${row.id}`}>{row.complaint}</Link></td>
                 <td>{row.status}</td>
-                <td>{row.openedAt}</td>
+                <td>{row.openedAt}</td>               
               </tr>
-            )) :
-          <tr>
-            <td className="text-center" colSpan="4">No tickets to display</td>
-          </tr>
-        }         
+            ))
+          ) : (
+            <tr>
+              <td className="text-center" colSpan="4">
+                No tickets to display
+              </td>
+            </tr>
+          )}
         </tbody>
       </Table>
     );

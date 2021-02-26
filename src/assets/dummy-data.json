@@ -3,7 +3,24 @@
       "id": 1,
       "complaint": "Lorem Ipsum",
       "status": "Opened",
-      "openedAt": "2021-05-12"
+      "openedAt": "2021-05-12",
+      "history":[
+        {
+          "date":"2021-06-02",
+          "message": "hello this is too long..",
+          "messageBy": "Client"
+        },
+        {
+          "date": "2021-06-02",
+          "message": "bss",
+          "messageBy": "Support"
+        },
+        {
+          "date": "2021-06-02",
+          "message": "hello this is too long..",
+          "messageBy": "Client"
+        }
+      ]
     },
     {
       "id": 2,

@@ -1,6 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const { insertUser, getUserByEmail } = require("../models/user-model");
+const { createAccessJWT, createRefreshJWT } = require("../utils/jwt");
+
 
 // hash password using bcrypt
 const bcrypt = require("bcrypt");
@@ -73,11 +75,21 @@ router.post("/login", async (req, res) => {
     const dbPass = user && user._id ? user.password : null;
 
     if (!dbPass)
-        return res.json({ status: "error", message: "Invalid email or password!" });
+        return res.json({ status: "error", message: "Invalid email or password!" });    
+    
+    
     const result = await comparePass(password, dbPass);
+
+    if (!result) {
+       return res.json({ status: "error", message: "Invalid email or password!" });
+    }
+
+    const accessJwt = await createAccessJWT(user.email, `${ user._id }`);
+    const refreshJwt = await createRefreshJWT(user.email);
+
     console.log(result);
 
-  res.json({ status: "success", message: "Login Successful!" });
+    res.json({ status: "success", message: "Login Successful!", accessJwt, refreshJwt });
 });
 
 

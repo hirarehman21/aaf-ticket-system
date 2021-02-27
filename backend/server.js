@@ -1,4 +1,5 @@
 const express = require("express");
+require("dotenv").config();
 const app = express();
 const bodyParser = require("body-parser");
 const cors = require("cors");
@@ -17,7 +18,7 @@ app.use(cors());
 // MongoDB connection
 const mongoose = require('mongoose');
 
-mongoose.connect("mongodb://127.0.0.1:27017/ticket-system", {
+mongoose.connect(process.env.MONGO_URL, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
   useFindAndModify: false,

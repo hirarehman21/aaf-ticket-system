@@ -1,8 +1,8 @@
 const express = require("express");
 const router = express.Router();
-const { insertUser, getUserByEmail } = require("../models/user-model");
+const { insertUser, getUserByEmail, getUserById} = require("../models/user-model");
 const { createAccessJWT, createRefreshJWT } = require("../utils/jwt");
-
+const { userAuthorisation } = require("../middleware/authorisation-middleware");
 
 // hash password using bcrypt
 const bcrypt = require("bcrypt");
@@ -31,6 +31,23 @@ router.all("/", (req, res, next) => {
   next(); // goes to the next router
 });
 
+// get user profile router *
+router.get("/", userAuthorisation, async (req, res) => {
+  // assume data coming from db
+  // const user = {
+  //   name: "Random user",
+  //   email: "Random@123.com",
+  //   password: "secret123"
+  // };
+  const _id = req.userId;
+
+  const userProfile = await getUserById(_id);
+  // extract user id
+  // get user profile based on user id
+
+  // res.json({ user: req.userId });
+  res.json({ user: userProfile });
+});
 
 // Router handling
 // Create new user route
@@ -91,6 +108,8 @@ router.post("/login", async (req, res) => {
 
     res.json({ status: "success", message: "Login Successful!", accessJwt, refreshJwt });
 });
+
+
 
 
 module.exports = router;

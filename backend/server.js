@@ -5,6 +5,7 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const helmet = require("helmet");
 const morgan = require("morgan");
+
 // if port available in the environment variable, use that, otherwise use 3001
 const port = process.env.PORT || 3001;
 
@@ -49,12 +50,15 @@ app.use(bodyParser.json());
 // Load routers
 const userRouter = require("./routers/user-router");
 const ticketRouter = require("./routers/ticket-router");
+const tokensRouter = require("./routers/tokens-router");
 
 // Use routers
 
 // with every request from /user, it redirects to userRouter
+// end points/ entry points*
 app.use("/user", userRouter);
 app.use("/ticket", ticketRouter);
+app.use("/tokens", tokensRouter);
 
 // Error handler
 const errorHandler = require('./utils/errorHandler');

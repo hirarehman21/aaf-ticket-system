@@ -1,5 +1,5 @@
 const { verifyAccessJwt } = require("../utils/jwt");
-const { getJwt } = require("../utils/redis");
+const { getJwt, deleteJWT } = require("../utils/redis");
 
 const userAuthorisation = async (req, res, next) => {
     const { authorization } = req.headers;
@@ -27,7 +27,7 @@ const userAuthorisation = async (req, res, next) => {
         return next();
      }
     
-    
+    deleteJWT(authorization.replace("Bearer ", ""));
 
     // if authorization is not valid
     return res.status(403).json({ message: "Invalid!" });

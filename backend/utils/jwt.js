@@ -47,8 +47,23 @@ const verifyAccessJwt = (userJwt) => {
   }
 };
 
+const verifyRefreshJwt = (userJwt) => {
+  try {
+    // console.log("bitchhh" + userJwt);
+    userJwt = userJwt.split(" ")[1];
+    return Promise.resolve(jwt.verify(userJwt, process.env.JWT_REFRESH_SECRET));
+    //  return Promise.resolve(jwt.verify(userJwt, process.env.JWT_ACCESS_SECRET));
+    // first parameter = token, second = secret key
+    // checks user verfication
+    //jwt.verify(userJwt, process.env.JWT_ACCESS_SECRET);
+  } catch (error) {
+    return Promise.resolve(error);
+  }
+};
+
 module.exports = {
   createAccessJWT,
   createRefreshJWT,
   verifyAccessJwt,
+  verifyRefreshJwt,
 };

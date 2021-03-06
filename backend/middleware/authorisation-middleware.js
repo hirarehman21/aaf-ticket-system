@@ -9,7 +9,8 @@ const userAuthorisation = async (req, res, next) => {
     // verify if jwt is valid
     // decodes the jwt and returns the data if its valid
     const decodedJwt = await verifyAccessJwt(authorization);
-    // console.log("decoded" + Object.values(decodedJwt));
+    //console.log("whatever", authorization.replace("Bearer ", ""));
+     //console.log("decoded" + Object.values(decodedJwt));
     if (decodedJwt.email) {
         const userId = await getJwt(authorization.replace("Bearer ", ""));
         // const userId = await getJwt(
@@ -27,7 +28,7 @@ const userAuthorisation = async (req, res, next) => {
         return next();
      }
     
-    deleteJWT(authorization.replace("Bearer ", ""));
+    deleteJWT(authorization );
 
     // if authorization is not valid
     return res.status(403).json({ message: "Invalid!" });

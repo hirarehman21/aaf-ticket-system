@@ -52,7 +52,7 @@ const userRouter = require("./routers/user-router");
 const ticketRouter = require("./routers/ticket-router");
 const tokensRouter = require("./routers/tokens-router");
 
-// Use routers
+// Use routers end-points
 
 // with every request from /user, it redirects to userRouter
 // end points/ entry points*

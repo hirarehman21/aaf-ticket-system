@@ -9,6 +9,10 @@ const {
   deleteTicket,
 } = require("../models/ticket-model");
 const { userAuthorisation } = require("../middleware/authorisation-middleware");
+const {
+  createTicketValidation,
+  ticketReplyValidation,
+} = require("../middleware/formValidation-middleware");
 
 // todo
 // create url endpoints
@@ -31,7 +35,7 @@ router.all("/", (req, res, next) => {
 // create url endpoints
 
 // create new ticket
-router.post("/", userAuthorisation, async (req, res) => {
+router.post("/", createTicketValidation, userAuthorisation, async (req, res) => {
   try {
     // receive new ticket data
     const { complaint, department, sender, message } = req.body;
@@ -101,7 +105,7 @@ router.get("/:_id", userAuthorisation, async (req, res) => {
 });
 
 // update reply message
-router.put("/:_id", userAuthorisation, async (req, res) => {
+router.put("/:_id", ticketReplyValidation, userAuthorisation, async (req, res) => {
 
   //console.log(req.params);
   try {

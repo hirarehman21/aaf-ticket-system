@@ -51,9 +51,12 @@ router.get("/", userAuthorisation, async (req, res) => {
   const userProfile = await getUserById(_id);
   // extract user id
   // get user profile based on user id
-
+  const { name, email } = userProfile;
   // res.json({ user: req.userId });
-  res.json({ user: userProfile });
+  //res.json({ user: userProfile });
+  res.json({
+    user: { _id, name, email },
+  });
 });
 
 // Router handling
@@ -127,6 +130,7 @@ router.post("/login", async (req, res) => {
 // delete refreshJWT from mongodb
 router.delete("/logout", userAuthorisation, async (req, res) => {
   const { authorization } = req.headers;
+  //console.log("delete auth", authorization);
   // data from db
   const _id = req.userId;
   // const userProfile = await getUserById(_id); .replace("Bearer ", "")

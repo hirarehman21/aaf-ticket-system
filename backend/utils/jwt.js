@@ -36,7 +36,9 @@ const createRefreshJWT = async (email, _id) => {
 const verifyAccessJwt = (userJwt) => {
   try {
     // console.log("bitchhh" + userJwt);
-    userJwt = userJwt.split(" ")[1];
+    console.log("userjwt", userJwt);
+    //userJwt = userJwt.split(" ")[1]; //I COMMENTED OUT THIS
+
     return Promise.resolve(jwt.verify(userJwt, process.env.JWT_ACCESS_SECRET));
     //  return Promise.resolve(jwt.verify(userJwt, process.env.JWT_ACCESS_SECRET));
     // first parameter = token, second = secret key
@@ -50,7 +52,7 @@ const verifyAccessJwt = (userJwt) => {
 const verifyRefreshJwt = (userJwt) => {
   try {
     // console.log("bitchhh" + userJwt);
-    userJwt = userJwt.split(" ")[1];
+    //userJwt = userJwt.split(" ")[1];
     return Promise.resolve(jwt.verify(userJwt, process.env.JWT_REFRESH_SECRET));
     //  return Promise.resolve(jwt.verify(userJwt, process.env.JWT_ACCESS_SECRET));
     // first parameter = token, second = secret key

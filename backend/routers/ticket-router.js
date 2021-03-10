@@ -1,4 +1,5 @@
 const express = require("express");
+// const cors = require("cors");
 const router = express.Router();
 const {
   insertTicket,
@@ -16,7 +17,7 @@ const {
 
 // todo
 // create url endpoints
-// receive new ticket data 
+// receive new ticket data
 // authorize every request with jwt
 // insert in monogodb
 // retrieve all the ticket for the specific user - done
@@ -25,58 +26,67 @@ const {
 // update ticket status // close, operator response pending, client response pending
 // delete ticket from mongodb
 
+// const corsOptions = require("../server");
+
 // captures all the routes for this endpoint
 router.all("/", (req, res, next) => {
   // res.json({ message: "return from ticket router" });
-
+  //res.setHeader("Access-Control-Allow-Origin" + "http://localhost:3000");
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "*");
   next();
 });
 
 // create url endpoints
 
 // create new ticket
-router.post("/", createTicketValidation, userAuthorisation, async (req, res) => {
-  try {
-    // receive new ticket data
-    const { complaint, department, sender, message } = req.body;
-    // console.log(req.body);
-    //console.log(req.userId);
-    const userId = req.userId;
-    const ticketObj = {
-      clientId: userId,
-      complaint,
-      department,
-      conversation: [
-        {
-          sender,
-          message,
-        },
-      ],
-    };
-    const result = await insertTicket(ticketObj);
-    // console.log(result);
-    if (result._id) {
-      return res.json({ status: "success", message: "New ticket created" });
+router.post(
+  "/",
+  createTicketValidation,
+  userAuthorisation,
+  async (req, res) => {
+    try {
+      // receive new ticket data
+      const { complaint, department, sender, message } = req.body;
+      // console.log(req.body);
+      //console.log(req.userId);
+      const userId = req.userId;
+      const ticketObj = {
+        clientId: userId,
+        complaint,
+        department,
+        conversation: [
+          {
+            sender,
+            message,
+          },
+        ],
+      };
+      const result = await insertTicket(ticketObj);
+      // console.log(result);
+      if (result._id) {
+        return res.json({ status: "success", message: "New ticket created" });
+      }
+      // insert in monogodb
+      //  res.json({ message: "todo create new ticket" });
+      res.json({ status: "error", message: "Ticket creation failed" });
+    } catch (error) {
+      res.json({ status: "error", message: error.message });
     }
-    // insert in monogodb
-    //  res.json({ message: "todo create new ticket" });
-    res.json({ status: "error", message: "Ticket creation failed" });
-  } catch (error) {
-    res.json({ status: "error", message: error.message });
   }
-});
+);
 
 // get all tickets for specific user
 router.get("/", userAuthorisation, async (req, res) => {
   try {
     const userId = req.userId;
-
+    console.log(userId);
     const result = await getTickets(userId);
 
     //console.log(result);
 
     //if (result.length) {
-      return res.json({ status: "success", result });
+    return res.json({ status: "success", result });
     //}
   } catch (error) {
     res.json({ status: "error", message: error.message });
@@ -85,10 +95,8 @@ router.get("/", userAuthorisation, async (req, res) => {
 
 // get a ticket by id for specific user
 router.get("/:_id", userAuthorisation, async (req, res) => {
-
   //console.log(req.params);
   try {
-
     const { _id } = req.params;
     const clientId = req.userId;
 
@@ -97,7 +105,7 @@ router.get("/:_id", userAuthorisation, async (req, res) => {
     //console.log(result);
 
     //if (result.length) {
-      return res.json({ status: "success", result });
+    return res.json({ status: "success", result });
     //}
   } catch (error) {
     res.json({ status: "error", message: error.message });
@@ -105,28 +113,31 @@ router.get("/:_id", userAuthorisation, async (req, res) => {
 });
 
 // update reply message
-router.put("/:_id", ticketReplyValidation, userAuthorisation, async (req, res) => {
+router.put(
+  "/:_id",
+  ticketReplyValidation,
+  userAuthorisation,
+  async (req, res) => {
+    //console.log(req.params);
+    try {
+      const { message, sender } = req.body;
+      const { _id } = req.params;
+      //const clientId = req.userId;
 
-  //console.log(req.params);
-  try {
-    const { message, sender } = req.body;
-    const { _id } = req.params;
-    //const clientId = req.userId;
+      const result = await updateClientReply({ _id, message, sender });
 
-    const result = await updateClientReply({ _id, message, sender });
+      console.log(result);
 
-    console.log(result);
+      if (result._id) {
+        return res.json({ status: "success", message: "message updated" });
+      }
 
-    if (result._id) {
-      return res.json({ status: "success", message: "message updated" });
+      res.json({ status: "err", message: "message update failed" });
+    } catch (error) {
+      res.json({ status: "error", message: error.message });
     }
-
-    res.json({ status: "err", message: "message update failed" });
-
-  } catch (error) {
-    res.json({ status: "error", message: error.message });
   }
-});
+);
 
 // close ticket - update ticket status
 router.patch("/close-ticket/:_id", userAuthorisation, async (req, res) => {
@@ -143,7 +154,6 @@ router.patch("/close-ticket/:_id", userAuthorisation, async (req, res) => {
     }
 
     res.json({ status: "err", message: "message update failed" });
-
   } catch (error) {
     res.json({ status: "error", message: error.message });
   }
@@ -160,11 +170,10 @@ router.delete("/:_id", userAuthorisation, async (req, res) => {
     // console.log(result);
 
     //if (result._id) {
-      return res.json({ status: "success", message: "Ticket has been deleted" });
+    return res.json({ status: "success", message: "Ticket has been deleted" });
     //}
 
     //res.json({ status: "err", message: "message update failed" });
-
   } catch (error) {
     res.json({ status: "error", message: error.message });
   }

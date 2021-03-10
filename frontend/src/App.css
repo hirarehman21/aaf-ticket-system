@@ -1,10 +1,10 @@
 
 footer {
-  position: relative;
+  position: absolute;
   padding: 1rem 0;
-  /* bottom: 0; */
+  bottom: 0;
   min-height: 2.5rem;
-  /* width: 100%; */
+  width: 100%;
   background: black;
   color: white;
 }

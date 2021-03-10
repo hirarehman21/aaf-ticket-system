@@ -3,13 +3,20 @@ import { Navbar, Nav } from "react-bootstrap";
 import NavbarToggle from "react-bootstrap/esm/NavbarToggle";
 import { useHistory } from 'react-router-dom';
 import { LinkContainer } from 'react-router-bootstrap';
+import { userLogout } from "../api/userApi";
 
 export default function Header() {
 
   const history = useHistory();
 
   const logOut = () => {
+
+    userLogout();
+    sessionStorage.removeItem("accessJwt");
+    localStorage.removeItem("ticketSystem");
+    
     history.push("/");
+    
   };
 
   return (

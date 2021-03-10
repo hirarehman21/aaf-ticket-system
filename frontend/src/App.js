@@ -8,6 +8,7 @@ import TicketDetails from './Pages/TicketDetails';
 import NewTicket from './Pages/NewTicket';
 import TicketList from './Pages/TicketList';
 import PrivateRoute from './Components/PrivateRoute';
+//import { useState } from 'react';
 // import HeaderComponent from './Components/HeaderComponent';
 
 function App() {
@@ -15,12 +16,13 @@ function App() {
   //   const { name, value } = e.target;
   //   console.log(name, value);
   // };
+  //const [formLoad, setFormLoad] = useState("login");
 
   return (
     <div className="App">
       <Router>
         <Switch>
-           <Route exact path="/">
+          <Route exact path="/">
             <Login />
           </Route>          
             <PrivateRoute path="/dashboard"><Dashboard /></PrivateRoute>

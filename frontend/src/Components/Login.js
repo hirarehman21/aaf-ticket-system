@@ -1,20 +1,75 @@
 import React from 'react'
-import {Container, Row, Col, Form, Button } from 'react-bootstrap';
-import { useState } from "react";
+import {Container, Row, Col, Form, Button, Spinner, Alert } from 'react-bootstrap';
+import { useState, useEffect } from "react";
+import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from "react-router-dom";
+
+import { loginPending, loginSuccess, loginFail } from "../Pages/redux-features/loginSlice";
+import { userLogin } from "../api/userApi";
+import { getUserProfile } from "../Pages/redux-features/userAction";
+
 
 function Login() {
-    const [email, setEmail] = useState("");
-    const [pass, setPass] = useState("");
 
-    const handleOnSubmit = (e) => {
+    const dispatch = useDispatch();
+    const history = useHistory();  
+  
+    const {isLoading, isAuth, error } = useSelector((state) => state.login);
+    
+   useEffect(() => {
+     sessionStorage.getItem("accessJwt") && history.push("/dashboard");
+   }, [history, isAuth]);
+
+    const [email, setEmail] = useState("user1@123.com");
+    const [password, setPass] = useState("secret123");
+
+    // const handleOnChange = (e) => {
+    //   const { name, value } = e.target;
+
+    //   switch (name) {
+    //     case "email":
+    //       setEmail(value);
+    //       break;
+
+    //     case "password":
+    //       setPassword(value);
+    //       break;
+
+    //     default:
+    //       break;
+    //   }
+    // };
+
+    const handleOnSubmit = async (e) => {
       e.preventDefault();
 
-      if (!email || !pass) {
+      if (!email || !password) {
         return alert("Form Incomplete!");
       }
       
-      // TODO validation and form submit 
-      console.log(email, pass);
+      dispatch(loginPending());
+
+      // validation and form submit 
+      try {
+        const isAuth = await userLogin({ email, password });
+        console.log("isauth ", isAuth);
+        console.log(email, password);
+
+        if (isAuth.status === "error") {
+          return dispatch(loginFail(isAuth.message));
+        }
+
+        dispatch(loginSuccess());
+        history.push("/dashboard");
+
+        dispatch(getUserProfile());
+
+      } catch (error) {
+      dispatch(loginFail(error.message));
+    }
+
+      
+      //console.log(email, pass);
     };    
 
     return (
@@ -23,6 +78,7 @@ function Login() {
           <Col>
             <h2>Login</h2>
             <hr />
+            {error && <Alert variant="danger">{error}</Alert>}
             <Form onSubmit={handleOnSubmit}>
               <Form.Group controlId="formGroupEmail">
                 <Form.Label>Email address</Form.Label>
@@ -40,7 +96,7 @@ function Login() {
                 <Form.Control
                   type="password"
                   name="password"
-                  value={pass}
+                  value={password}
                   onChange={(e) => setPass(e.target.value)}
                   //   onChange={handleOnChange}
                   placeholder="Password"
@@ -48,6 +104,7 @@ function Login() {
                 />
               </Form.Group>
               <Button type="submit">Login</Button>
+              {isLoading && <Spinner variant="primary" animation="border"/>}
             </Form>
           </Col>
         </Row>

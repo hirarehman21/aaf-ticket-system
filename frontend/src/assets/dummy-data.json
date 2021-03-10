@@ -1,7 +1,7 @@
 [
     {
       "id": 1,
-      "complaint": "Lorem Ipsum",
+      "complaint": "LLorem Ipsum",
       "status": "Opened",
       "openedAt": "2021-05-12",
       "history":[

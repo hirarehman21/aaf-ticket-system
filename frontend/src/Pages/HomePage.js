@@ -8,10 +8,10 @@ function HomePage({children}) {
         <header className="mb-2"><Header /></header>       
                 
         <main>{children}</main>         
-            
+{/*             
         <footer>
          <Footer />  
-        </footer>
+        </footer> */}
        
       </div>
     );
